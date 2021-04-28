@@ -1,4 +1,4 @@
-package miscellany.concXecution;
+package concXecution;
 
 public class FailException extends RuntimeException
 {

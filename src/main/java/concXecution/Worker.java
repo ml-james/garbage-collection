@@ -1,4 +1,4 @@
-package miscellany.concXecution;
+package concXecution;
 
 import java.util.*;
 import java.util.concurrent.*;
