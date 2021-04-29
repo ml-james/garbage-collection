@@ -4,39 +4,28 @@ import java.util.*;
 
 public class Collections
 {
-    private final List<Integer> list = new ArrayList<>();
-    private final Integer[] array = new Integer[100];
+    private final List<Integer> primedList;
+    private final Integer[] primedArray;
 
-    public void fillList()
+    public Collections()
     {
-        for (int i = 0; i < 100; i++)
+        primedList = new ArrayList<>();
+        primedArray = new Integer[10];
+
+        for (int i = 0; i < 10; i++)
         {
-            list.add(i);
+            primedList.add(i);
+            primedArray[i] = i;
         }
     }
 
-    public void readList()
-    {
-        for (int i = 0; i < 100; i++)
-        {
-            final Integer integer = list.get(i);
-        }
+
+    public List<Integer> getPrimedList() {
+        return primedList;
     }
 
-    public void fillArray()
-    {
-        for (int i = 0; i < 100; i++)
-        {
-            array[i] = i;
-        }
-    }
-
-    public void readArray()
-    {
-        for (int i = 0; i < 100; i++)
-        {
-            final Integer integer = array[i];
-        }
+    public Integer[] getPrimedArray() {
+        return primedArray;
     }
 }
 

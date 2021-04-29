@@ -1,45 +1,66 @@
 package jmaitch;
 
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@BenchmarkMode(Mode.Throughput)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
-@Fork(value = 2, jvmArgs = {"-Xms2G", "-Xmx2G"})
-@Warmup(iterations = 3)
-@Measurement(iterations = 8)
+@Warmup(iterations = 2)
+@Measurement(iterations = 5)
 public class CollectionsTest
 {
     final Collections collections = new Collections();
 
     @Benchmark
+    @OperationsPerInvocation(10)
     public void fillArray()
     {
-        collections.fillArray();
+        final Integer[] array = new Integer[10];
+        for (int i = 0; i < array.length; i++)
+        {
+            array[i] = i;
+        }
     }
 
     @Benchmark
-    public void readArray()
+    @OperationsPerInvocation(10)
+    public void readArray(Blackhole bh)
     {
-        collections.readArray();
+        final Integer[] filledArray = collections.getPrimedArray();
+        for (final Integer integer : filledArray) {
+            bh.consume(integer);
+        }
     }
 
     @Benchmark
+    @OperationsPerInvocation(10)
     public void fillList()
     {
-        collections.fillList();
+        final List<Integer> arrayList = new ArrayList<>();
+        for (int i = 0; i < 10; i++)
+        {
+            arrayList.add(i);
+        }
     }
 
     @Benchmark
-    public void readList()
+    @OperationsPerInvocation(10)
+    public void readList(Blackhole bh)
     {
-        collections.readList();
+        final List<Integer> filledList = collections.getPrimedList();
+        for (final Integer integer : filledList)
+        {
+            bh.consume(filledList.get(integer));
+        }
     }
 
     public static void main(String[] args) throws RunnerException
